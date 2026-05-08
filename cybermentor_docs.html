@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>CyberMentor — Project Documentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    font-size: 13px;
+    line-height: 1.7;
+    padding: 40px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media print {
+    body { padding: 20px 40px; }
+    .no-print { display: none; }
+    .page-break { page-break-before: always; }
+  }
+
+  /* ── Cover ── */
+  .cover {
+    text-align: center;
+    padding: 60px 0 50px;
+    border-bottom: 3px solid #00c97a;
+    margin-bottom: 40px;
+  }
+  .cover .shield { font-size: 64px; margin-bottom: 16px; }
+  .cover h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 36px;
+    font-weight: 700;
+    color: #00b86b;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .cover .subtitle {
+    font-size: 14px;
+    color: #555;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  .cover .tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: #eafaf3;
+    border: 1px solid #00c97a;
+    color: #007a45;
+    border-radius: 20px;
+    padding: 3px 14px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+
+  /* ── Sections ── */
+  h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: #007a45;
+    border-left: 4px solid #00c97a;
+    padding-left: 12px;
+    margin: 36px 0 16px;
+    letter-spacing: 0.5px;
+  }
+  h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 20px 0 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  p { margin-bottom: 10px; color: #333; }
+
+  /* ── Architecture Box ── */
+  .arch-box {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin: 16px 0 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #e6edf3;
+    line-height: 1.9;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .arch-box .green { color: #00c97a; }
+  .arch-box .blue  { color: #58a6ff; }
+  .arch-box .cyan  { color: #79c0ff; }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 24px;
+    font-size: 12.5px;
+  }
+  thead tr { background: #00c97a; color: white; }
+  thead th { padding: 9px 14px; text-align: left; font-weight: 600; }
+  tbody tr:nth-child(even) { background: #f4fdf9; }
+  tbody tr:hover { background: #e8faf1; }
+  td { padding: 8px 14px; border-bottom: 1px solid #e0f0ea; color: #333; vertical-align: top; }
+  td:first-child { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #007a45; white-space: nowrap; }
+
+  /* ── Code ── */
+  pre {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: #e6edf3;
+    margin: 12px 0 20px;
+    overflow-x: auto;
+    line-height: 1.7;
+  }
+  code {
+    background: #eafaf3;
+    border: 1px solid #b3e6cc;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: #007a45;
+  }
+
+  /* ── Feature Cards ── */
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0 24px;
+  }
+  .card {
+    border: 1px solid #d4eddf;
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: #f9fefc;
+  }
+  .card-icon { font-size: 22px; margin-bottom: 6px; }
+  .card-title { font-weight: 700; font-size: 12.5px; color: #007a45; margin-bottom: 4px; }
+  .card-desc { font-size: 11.5px; color: #555; line-height: 1.6; }
+
+  /* ── Endpoints ── */
+  .endpoint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-bottom: 7px;
+    border: 1px solid #e0f0ea;
+    background: #f9fefc;
+  }
+  .method {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    min-width: 52px;
+    text-align: center;
+  }
+  .get    { background: #dff4e8; color: #1a7a40; }
+  .post   { background: #d6e8ff; color: #1a4fa0; }
+  .delete { background: #fde8e8; color: #a01a1a; }
+  .ep-path { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #007a45; font-weight: 600; }
+  .ep-desc { font-size: 11.5px; color: #555; margin-left: auto; }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 2px solid #e0f0ea;
+    text-align: center;
+    font-size: 11px;
+    color: #999;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e0f0ea;
+    margin: 30px 0;
+  }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 20px; }
+  .pill {
+    background: #0d1117; color: #00c97a;
+    border: 1px solid #30363d;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .highlight-box {
+    background: #eafaf3;
+    border-left: 4px solid #00c97a;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 12px 0 20px;
+    font-size: 12.5px;
+    color: #1a4a30;
+  }
+
+  .no-print {
+    position: fixed; bottom: 24px; right: 24px;
+    background: #00c97a; color: white;
+    border: none; border-radius: 10px;
+    padding: 12px 22px;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,180,100,0.4);
+    font-family: 'Inter', sans-serif;
+  }
+  .no-print:hover { background: #00a85e; }
+</style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">🖨️ Save as PDF</button>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="shield">🛡️</div>
+  <h1>CyberMentor</h1>
+  <div class="subtitle">AI-POWERED CYBERSECURITY MENTOR — PROJECT DOCUMENTATION</div>
+  <div class="tags">
+    <span class="tag">React + Vite</span>
+    <span class="tag">Flask + Python</span>
+    <span class="tag">Claude API</span>
+    <span class="tag">RAG Pipeline</span>
+    <span class="tag">TF-IDF</span>
+    <span class="tag">Educational</span>
+  </div>
+</div>
+
+<!-- SECTION 1: OVERVIEW -->
+<h2>01 · Project Overview</h2>
+<p>
+  <strong>CyberMentor</strong> is a full-stack, AI-powered cybersecurity chatbot designed for students, ethical hackers,
+  and security professionals. It uses the <strong>Anthropic Claude API</strong> as its conversational brain, enhanced
+  by a custom <strong>RAG (Retrieval-Augmented Generation)</strong> pipeline that lets users upload their own documents
+  — lab manuals, OWASP notes, TryHackMe writeups — to inject real context into every response.
+</p>
+<div class="highlight-box">
+  🎯 <strong>Goal:</strong> Provide an elite, mentor-quality cybersecurity AI assistant — sharp, technically precise,
+  always paired with defense and mitigation guidance, and adapted to the user's skill level.
+</div>
+
+<h3>Knowledge Domain</h3>
+<div class="pill-row">
+  <span class="pill">OWASP Top 10</span>
+  <span class="pill">Penetration Testing</span>
+  <span class="pill">CVEs &amp; Metasploitable2</span>
+  <span class="pill">Metasploit</span>
+  <span class="pill">Burp Suite</span>
+  <span class="pill">Nmap / Masscan</span>
+  <span class="pill">SQLMap</span>
+  <span class="pill">Gobuster</span>
+  <span class="pill">Hydra</span>
+  <span class="pill">MITRE ATT&CK</span>
+  <span class="pill">Cyber Kill Chain</span>
+  <span class="pill">NIST / ISO 27001</span>
+  <span class="pill">TryHackMe</span>
+  <span class="pill">HackTheBox</span>
+  <span class="pill">Wireshark</span>
+  <span class="pill">John the Ripper</span>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 2: ARCHITECTURE -->
+<h2>02 · System Architecture</h2>
+
+<div class="arch-box">┌──────────────────────────────────────────────────────────────┐
+│                   REACT + VITE FRONTEND                      │
+│                    localhost:5173                            │
+│                                                              │
+│   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│   │  Header  │  │ Sidebar  │  │   Chat   │  │  Input   │   │
+│   │  .jsx    │  │  .jsx    │  │ Window   │  │   Bar    │   │
+│   └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
+│                                                              │
+│   Hooks: useChat.js · useDocuments.js                        │
+│   Utils: formatMessage.jsx                                   │
+│   Styles: globals.css (CSS variables + animations)           │
+└──────────────────────┬───────────────────────────────────────┘
+                       │  HTTP (Vite proxy → port 5000)
+                       │  POST /api/chat
+                       │  POST /api/upload
+                       │  GET  /api/documents
+                       │  DELETE /api/documents/:id
+┌──────────────────────▼───────────────────────────────────────┐
+│                   FLASK PYTHON BACKEND                        │
+│                    localhost:5000                            │
+│                                                              │
+│   app.py ──► routes + CORS + error handling                  │
+│   prompts.py ──► SYSTEM_PROMPT + TOPIC_PROMPTS               │
+│   rag.py ──► PDF parse → chunk → TF-IDF → retrieve          │
+│                                                              │
+│   In-memory DOCUMENT_STORE (dict)                            │
+│   Chunk size: 400 words  │  Overlap: 50  │  Top-K: 5        │
+└──────────────────────┬───────────────────────────────────────┘
+                       │  Anthropic Python SDK
+                       │  model: claude-sonnet-4-20250514
+┌──────────────────────▼───────────────────────────────────────┐
+│                 CLAUDE API (ANTHROPIC)                        │
+│                                                              │
+│   System = SYSTEM_PROMPT + {RAG context} + {topic addon}    │
+│   Max tokens: 1024  │  History: last 20 messages            │
+└──────────────────────────────────────────────────────────────┘</div>
+
+<hr class="divider" />
+
+<!-- SECTION 3: FILE BREAKDOWN -->
+<h2>03 · File Structure &amp; Roles</h2>
+
+<h3>🐍 Python Backend</h3>
+<table>
+  <thead><tr><th>File</th><th>Role</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>app.py</td>
+      <td>Main Flask application. Defines 5 routes: <code>/api/chat</code>, <code>/api/upload</code>, <code>/api/documents</code> (GET &amp; DELETE), <code>/api/health</code>. Trims message history to 20 turns, builds the RAG-enriched system prompt, calls the Anthropic SDK, and handles auth/rate-limit errors gracefully.</td>
+    </tr>
+    <tr>
+      <td>rag.py</td>
+      <td>Full in-memory RAG pipeline — no external vector DB. Parses PDFs via PyPDF2 or plain text/markdown. Splits text into overlapping 400-word chunks. Builds TF-IDF indices per document. On each query, scores all chunks and returns the top 5 most relevant for context injection.</td>
+    </tr>
+    <tr>
+      <td>prompts.py</td>
+      <td>Defines the master <code>SYSTEM_PROMPT</code> (with a <code>{context_block}</code> placeholder for RAG) and 5 topic-specific addon strings: web, network, exploit, defense, forensics.</td>
+    </tr>
+    <tr>
+      <td>requirements.txt</td>
+      <td><code>anthropic</code>, <code>flask</code>, <code>flask-cors</code>, <code>python-dotenv</code>, <code>PyPDF2</code>, <code>tiktoken</code>, <code>numpy</code>, <code>python-multipart</code></td>
+    </tr>
+    <tr>
+      <td>env.example</td>
+      <td>Template for environment variables: <code>ANTHROPIC_API_KEY</code>, <code>FLASK_PORT</code>, <code>FLASK_DEBUG</code>, <code>MAX_CONTEXT_CHUNKS</code>, <code>CHUNK_SIZE</code>, <code>CHUNK_OVERLAP</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>⚛️ React Frontend</h3>
+<table>
+  <thead><tr><th>File</th><th>Role</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>useChat.js</td>
+      <td>Core state hook. Manages messages array, calls <code>/api/chat</code> with topic filter, persists up to 50 messages in <code>localStorage</code>, tracks <code>ragActive</code> and <code>activeTopic</code>. Provides <code>sendMessage</code> and <code>clearHistory</code>.</td>
+    </tr>
+    <tr>
+      <td>useDocuments.js</td>
+      <td>Document management hook. Handles file upload to <code>/api/upload</code> via FormData, fetches existing docs on mount, and deletes docs via the DELETE endpoint.</td>
+    </tr>
+    <tr>
+      <td>Sidebar.jsx</td>
+      <td>Left panel. Displays 6 topic filter buttons (All Topics, Web Vulns, Network, Exploitation, Defense, Forensics) and the RAG document section — upload area + list of uploaded docs with chunk/word counts and remove buttons.</td>
+    </tr>
+    <tr>
+      <td>Header.jsx</td>
+      <td>Top bar with the CyberMentor_ blinking logo, topic subtitle, a "RAG ACTIVE" badge (shown when docs are loaded), a pulsing LIVE indicator, and a CLEAR conversation button.</td>
+    </tr>
+    <tr>
+      <td>formatMessage.jsx</td>
+      <td>Markdown-lite renderer. Handles <code>```code blocks```</code> with language labels, <code>**bold**</code> text, and <code>`inline code`</code> — renders them as styled React elements.</td>
+    </tr>
+    <tr>
+      <td>globals.css</td>
+      <td>Full design system via CSS variables: dark navy palette (<code>#040c18</code>), neon green (<code>#00ff9d</code>), cyan blue (<code>#00b4ff</code>), JetBrains Mono + Syne fonts, scrollbar styling, and keyframe animations (blink, pulse-dot, fade-slide-up, shimmer, scan).</td>
+    </tr>
+    <tr>
+      <td>index.html</td>
+      <td>Vite entry point. Loads Google Fonts and mounts <code>#root</code>.</td>
+    </tr>
+    <tr>
+      <td>vite.config.js</td>
+      <td>Vite config with React plugin and proxy rule: all <code>/api/*</code> requests proxied to <code>http://localhost:5000</code>.</td>
+    </tr>
+    <tr>
+      <td>package.json</td>
+      <td>Dependencies: <code>react ^18.3</code>, <code>react-dom ^18.3</code>, <code>vite ^5.4</code>, <code>@vitejs/plugin-react ^4.3</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr class="divider" />
+
+<!-- SECTION 4: RAG PIPELINE -->
+<h2>04 · RAG Pipeline (rag.py)</h2>
+<p>The RAG system works entirely in-memory using TF-IDF — no Pinecone, no ChromaDB, no embeddings API needed.</p>
+
+<div class="cards">
+  <div class="card">
+    <div class="card-icon">📄</div>
+    <div class="card-title">1. Parse</div>
+    <div class="card-desc">PDF → PyPDF2 page extraction. TXT/MD → UTF-8 decode. Max upload: 10MB.</div>
+  </div>
+  <div class="card">
+    <div class="card-icon">✂️</div>
+    <div class="card-title">2. Chunk</div>
+    <div class="card-desc">Split into overlapping 400-word chunks (50-word overlap). Filters out chunks under 20 words.</div>
+  </div>
+  <div class="card">
+    <div class="card-icon">📊</div>
+    <div class="card-title">3. Index (TF-IDF)</div>
+    <div class="card-desc">Compute TF per chunk and IDF across all chunks. Stored in DOCUMENT_STORE dict in RAM.</div>
+  </div>
+  <div class="card">
+    <div class="card-icon">🔍</div>
+    <div class="card-title">4. Retrieve</div>
+    <div class="card-desc">On each user message: tokenize query, score all chunks, return top 5. Injected as context block into the system prompt.</div>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 5: API ENDPOINTS -->
+<h2>05 · API Endpoints</h2>
+
+<div class="endpoint">
+  <span class="method post">POST</span>
+  <span class="ep-path">/api/chat</span>
+  <span class="ep-desc">Send message history + optional topic → get AI reply + RAG status + token usage</span>
+</div>
+<div class="endpoint">
+  <span class="method post">POST</span>
+  <span class="ep-path">/api/upload</span>
+  <span class="ep-desc">Upload PDF/TXT/MD → parse, chunk, index → return doc ID + chunk count</span>
+</div>
+<div class="endpoint">
+  <span class="method get">GET</span>
+  <span class="ep-path">/api/documents</span>
+  <span class="ep-desc">List all uploaded documents (id, name, chunk_count, word_count)</span>
+</div>
+<div class="endpoint">
+  <span class="method delete">DELETE</span>
+  <span class="ep-path">/api/documents/:id</span>
+  <span class="ep-desc">Remove a document from the in-memory store</span>
+</div>
+<div class="endpoint">
+  <span class="method get">GET</span>
+  <span class="ep-path">/api/health</span>
+  <span class="ep-desc">Health check — returns status and model name</span>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 6: FEATURES -->
+<h2>06 · Key Features</h2>
+<div class="cards">
+  <div class="card">
+    <div class="card-icon">💬</div>
+    <div class="card-title">Multi-turn Chat</div>
+    <div class="card-desc">Full conversation history (last 20 messages sent to Claude). Persisted via localStorage across reloads.</div>
+  </div>
+  <div class="card">
+    <div class="card-icon">📚</div>
+    <div class="card-title">RAG Support</div>
+    <div class="card-desc">Upload lab manuals, OWASP PDFs, or TryHackMe notes — AI answers using your own documents as context.</div>
+  </div>
+  <div class="card">
+    <div class="card-icon">⚡</div>
+    <div class="card-title">Quick Prompts</div>
+    <div class="card-desc">8 one-click prompts: SQLi 101, XSS Lab, Metasploit vsftpd, OWASP Top 10, Interview Prep, MITRE ATT&CK, Nmap vs Masscan, Fix Broken Auth.</div>
+  </div>
+  <div class="card">
+    <div class="card-icon">🗂️</div>
+    <div class="card-title">Topic Filtering</div>
+    <div class="card-desc">Sidebar topic selector (Web / Network / Exploit / Defense / Forensics) appends a focus instruction to the system prompt.</div>
+  </div>
+  <div class="card">
+    <div class="card-icon">🎨</div>
+    <div class="card-title">Hacker Aesthetic</div>
+    <div class="card-desc">Deep navy background, neon green #00ff9d accents, JetBrains Mono font, blinking cursor, pulsing live dot, fade-in animations.</div>
+  </div>
+  <div class="card">
+    <div class="card-icon">🔒</div>
+    <div class="card-title">Ethics Built-in</div>
+    <div class="card-desc">System prompt enforces lab/educational context only. All attack explanations are paired with defense and mitigation guidance.</div>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 7: SETUP -->
+<h2>07 · Setup &amp; Running</h2>
+<h3>Backend</h3>
+<pre>cd cybermentor
+python -m venv venv
+venv\Scripts\activate        # Windows
+pip install -r requirements.txt
+copy env.example .env        # Add ANTHROPIC_API_KEY
+python app.py                # Starts on http://localhost:5000</pre>
+
+<h3>Frontend</h3>
+<pre>cd cybermentor
+npm install
+npm run dev                  # Starts on http://localhost:5173</pre>
+
+<h3>Environment Variables (.env)</h3>
+<pre>ANTHROPIC_API_KEY=sk-ant-...
+FLASK_PORT=5000
+FLASK_DEBUG=true
+MAX_CONTEXT_CHUNKS=5
+CHUNK_SIZE=400
+CHUNK_OVERLAP=50</pre>
+
+<hr class="divider" />
+
+<!-- SECTION 8: DESIGN SYSTEM -->
+<h2>08 · Design System (globals.css)</h2>
+<table>
+  <thead><tr><th>Token</th><th>Value</th><th>Usage</th></tr></thead>
+  <tbody>
+    <tr><td>--bg-base</td><td>#040c18</td><td>Page background</td></tr>
+    <tr><td>--bg-surface</td><td>#080f1e</td><td>Sidebar background</td></tr>
+    <tr><td>--bg-raised</td><td>#0d1828</td><td>Elevated cards</td></tr>
+    <tr><td>--green</td><td>#00ff9d</td><td>Primary accent, icons, borders</td></tr>
+    <tr><td>--blue</td><td>#00b4ff</td><td>AI messages, RAG badge</td></tr>
+    <tr><td>--red</td><td>#ff4d6d</td><td>Error states, delete hover</td></tr>
+    <tr><td>--font-mono</td><td>JetBrains Mono</td><td>Code, labels, titles</td></tr>
+    <tr><td>--font-body</td><td>Syne</td><td>Body text, buttons</td></tr>
+    <tr><td>--sidebar-width</td><td>240px</td><td>Left panel width</td></tr>
+    <tr><td>--header-height</td><td>62px</td><td>Top bar height</td></tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  🛡️ CyberMentor · AI Cybersecurity Mentor · For Educational &amp; Lab Use Only · Be Ethical
+</div>
+
+</body>
+</html>
