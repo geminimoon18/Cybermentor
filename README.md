@@ -7,7 +7,7 @@ A full-stack cybersecurity mentor chatbot with RAG support, built for students a
 - **Backend**: Flask + Python (REST API, RAG pipeline, PDF parsing)
 
 ## Features
-- 💬 Multi-turn AI chat powered by Claude API
+- 💬 Multi-turn AI chat powered by Gemini API
 - 📄 RAG: Upload PDFs (lab manuals, OWASP notes) — they get chunked & injected as context
 - ⚡ 8 Quick-fire prompts (SQLi, XSS, Metasploit, OWASP, etc.)
 - 🗂️ Topic sidebar (Web Vulns, Network, Exploit, Defense, Forensics)
@@ -62,7 +62,7 @@ cd backend
 python -m venv venv
 source venv/bin/activate      # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env          # Add your ANTHROPIC_API_KEY
+cp .env.example .env          # Add your GEMINI_API_KEY
 python app.py
 ```
 
@@ -92,7 +92,7 @@ Open http://localhost:5173
 ## Environment Variables
 
 ```
-ANTHROPIC_API_KEY=sk-ant-...
+GEMINI_API_KEY=AIzaSy...
 FLASK_PORT=5000
 FLASK_DEBUG=true
 MAX_CONTEXT_CHUNKS=5
